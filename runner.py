@@ -85,9 +85,9 @@ class Runner:
                 obj["sprites"][fig.value][ori.value] = Sprites[fig][ori]
 
         for fig in Tetramino:
-            obj["sprites"][fig.value] = {}
+            obj["srs"][fig.value] = {}
             for ori in Orientation:
-                obj["sprites"][fig.value][ori.value] = {
+                obj["srs"][fig.value][ori.value] = {
                     Command.CLOCKWISE.value: {
                         "to": str(SRS[fig][ori][Command.CLOCKWISE][0].value),
                         "offsets": SRS[fig][ori][Command.CLOCKWISE][1],

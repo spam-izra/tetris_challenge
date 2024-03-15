@@ -162,7 +162,7 @@ class Application:
                 impl.render(imgui.get_draw_data())
                 glfw.swap_buffers(window)
 
-                time.sleep(1)
+                #time.sleep(1)
                 t = time.monotonic()
                 leftover = max(0, framerate - (t - self.clock))
                 if leftover:

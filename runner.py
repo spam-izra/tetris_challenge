@@ -35,8 +35,8 @@ def enqueue_stream(stream, queue):
 class Runner:
     def __init__(self, *, cfg) -> None:
         self.cfg = cfg
-        self.engine = TetrisEngine(width=cfg["width"], height=cfg["height"], seed=self.cfg["seed"])
-        content = cfg["content"]
+        self.engine = TetrisEngine(width=cfg["map"]["width"], height=cfg["map"]["height"], seed=self.cfg["seed"])
+        content = cfg["map"]["content"]
         self.engine.set_map(content)
 
         self.queue = queue.Queue(10)
@@ -162,9 +162,9 @@ class Runner:
 
 
 class MyApp(Application, Runner):
-    def __init__(self, *, screen_size=(800, 720), title="Tetris", cfg=None):
+    def __init__(self, *, screen_size=(800, 720), title="Tetris", cfg):
         Application.__init__(self, screen_size=screen_size, title=title)
-        Runner.__init__(self, cfg=None)
+        Runner.__init__(self, cfg=cfg)
 
     def draw(self, dt: float, width: int, height: int, keys):
         self.do()

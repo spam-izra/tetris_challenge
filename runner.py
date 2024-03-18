@@ -32,6 +32,11 @@ def enqueue_stream(stream, queue):
         queue.put(json.loads(body))
 
 
+def print_stream(stream):
+    while True:
+        b = stream.readline()
+        print(b.decode("utf-8"))
+
 class Runner:
     def __init__(self, *, cfg) -> None:
         self.cfg = cfg
@@ -42,12 +47,16 @@ class Runner:
         self.queue = queue.Queue(10)
         self.p = Popen(self.cfg["client"]["cmd"], stdin=PIPE, stdout=PIPE)
         self.to = threading.Thread(target=enqueue_stream, args=(self.p.stdout, self.queue))
+        #self.te = threading.Thread(target=print_stream, args=(self.p.stderr,))
         self.to.start()
+        #self.te.start()
 
     def dispose(self):
         self.p.kill()
         self.p.stdout.close()
+        #self.p.stderr.close()
         self.to.join()
+        #self.te.join()
 
     def init_client(self):
         world = self.prepare_world()

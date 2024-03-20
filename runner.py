@@ -41,7 +41,16 @@ class Runner:
     def __init__(self, *, cfg) -> None:
         self.cfg = cfg
         self.engine = TetrisEngine(width=cfg["map"]["width"], height=cfg["map"]["height"], seed=self.cfg["seed"])
+        if cfg["sleep"]:
+            self.sleep = cfg["sleep"]
+        else:
+            self.sleep = None
+
+        mapper = {v.name: v  for v in Tetramino}
+
+        history = [mapper[v] for v in cfg["history"]]
         content = cfg["map"]["content"]
+        self.engine._gen.history = history
         self.engine.set_map(content)
 
         self.queue = queue.Queue(10)
@@ -65,6 +74,11 @@ class Runner:
     def do(self):
         if self.engine._state == State.OVER:
             return
+
+        if cfg["frame"] and self.engine._frame <= cfg["frame"]:
+            self.sleep = None
+        else:
+            self.sleep = cfg["sleep"]
 
         self.send(self.prepare_state(), self.p.stdin)
         cmd = self.get()
@@ -165,6 +179,8 @@ class Runner:
     def loop(self):
         while self.engine._state != State.OVER:
             self.do()
+            if self.sleep:
+                time.sleep(self.sleep)
 
         print("GAME OVER:", self.engine.score)
 

@@ -1,5 +1,8 @@
 {
     "seed": 42,
+    "history": [],
+    "frame": null,
+    "sleep": null,
     "map": {
         "width": 10,
         "height": 20,

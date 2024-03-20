@@ -162,11 +162,13 @@ class Application:
                 impl.render(imgui.get_draw_data())
                 glfw.swap_buffers(window)
 
-                #time.sleep(1)
-                t = time.monotonic()
-                leftover = max(0, framerate - (t - self.clock))
-                if leftover:
-                    time.sleep(leftover)
+                if self.sleep:
+                    time.sleep(self.sleep)
+                else:
+                    t = time.monotonic()
+                    leftover = max(0, framerate - (t - self.clock))
+                    if leftover:
+                        time.sleep(leftover)
         finally:
             impl.shutdown()
             glfw.terminate()

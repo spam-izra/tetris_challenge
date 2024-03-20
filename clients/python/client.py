@@ -100,7 +100,7 @@ class Figure:
         self.orientation = Orientation(js["orientation"])
 
     def __repr__(self) -> str:
-        s = f'Fig(x={self.x} y={self.cell_y} f={self.figure.value} o={self.orientation.value})'
+        s = f'Fig(x={self.x} y={self.cell_y} f={self.figure.name} o={self.orientation.name})'
         return s
 
 class State:
